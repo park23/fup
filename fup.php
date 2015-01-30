@@ -14,7 +14,7 @@ class Diesel{
 		$authArray=array( 
         	'UserName' => $this->user, 
         	'PassWord' => $this->pass, 
-        	'Submit' => 'Войти'
+        	'Submit' => 'Р’РѕР№С‚Рё'
 
       	);
 
@@ -53,7 +53,7 @@ class Diesel{
  			$res=htmlspecialchars_decode($link);
  			$out=$this->request($res,false,'GET');
 
-			if(preg_match('/\<p\>Сообщение\s+удалено\<br/',$out)){
+			if(preg_match('/\<p\>РЎРѕРѕР±С‰РµРЅРёРµ\s+СѓРґР°Р»РµРЅРѕ\<br/',$out)){
 			
 				return true;
 			}
@@ -83,7 +83,7 @@ class Diesel{
 			'auth_key' => $auth_key,
 			'fast_reply_used'=> 1,
 			'Post'	=> 'up',
-			'submit' => 'Отправить'
+			'submit' => 'РћС‚РїСЂР°РІРёС‚СЊ'
 			
       	);
 
@@ -125,10 +125,10 @@ class Diesel{
 }
 
 $test=new Diesel();
-$test->user='Логин';
-$test->pass='Пароль';
+$test->user='Р›РѕРіРёРЅ';
+$test->pass='РџР°СЂРѕР»СЊ';
 $test->login(); 
-$test->post='ссылка на тему';
+$test->post='СЃСЃС‹Р»РєР° РЅР° С‚РµРјСѓ';
 echo $link=$test->findDeleteLink();
 $test->deleteLink($link);
 sleep(5);
