@@ -149,7 +149,7 @@ $test=new Diesel();
 $test->user='';
 $test->pass='';
 $test->login(); 
-$test->post='http://diesel.elcat.kg/index.php?showtopic=160621174';
+$test->post='';
 $link=$test->findDeleteLink();
 $test->deleteLink($link);
 $test->newUp();  
