@@ -10,7 +10,7 @@ class Diesel{
 	public $post;
 	
 	public function login(){
-
+		echo "login process start...\n";
 		$authArray=array( 
         	'UserName' => $this->user, 
         	'PassWord' => $this->pass, 
@@ -20,21 +20,32 @@ class Diesel{
 
 		$result=$this->request('http://diesel.elcat.kg/index.php?act=Login&CODE=01',$authArray,'POST');
 		
+			
+			return true;
+
+		
 	}
 
 	public function findDeleteLink(){
-			 
+			   echo "find link process start..\n";
 			$res= $this->request($this->post."&st=9999",false,'GET');
 			if(preg_match_all('/\<table\s+class(.*)\s+\<\/table\>/isU',$res,$pages)){
 					foreach($pages[0] as $k=>$v){
 
 						if(preg_match('/onmousedown=\"ins\(\''.$this->user.'\'\);\s+return\s+false\"\>\<b\>'.$this->user.'\<\/b\>\<\/a\>/',$v,$out)){
-  		
+  		                                        echo "you succesfull log in diesel\n";
 							if(preg_match('/\<div\s+class=\"postcolor\"\s+id=\'post\-(.*)\'\>\s+up\s+\<\!\-\-IBF\.ATTACHMENT_/isU',$v,$out2)){
 
 							    	if(preg_match('/delete_post\(\'(.*)\'\)\"\>/isU',$v,$result)){
+				                                        echo "delete link found\n";
 							    		return $result[1];
-									}
+									}else{
+									print_r($result);
+									die("link for delete file not found section 1\n");
+								}
+							}else{
+                                                            print_r($v);
+								die("link for delete file not found section 2\n");
 							}
 																					
 						}
@@ -47,24 +58,22 @@ class Diesel{
 	
  
 	 public function deleteLink($link){
-
+	                    
 
 	    if($link!=false){
+		echo "link delete process start...\n";
  			$res=htmlspecialchars_decode($link);
  			$out=$this->request($res,false,'GET');
-
-			if(preg_match('/\<p\>Сообщение\s+удалено\<br/',$out)){
-			
-				return true;
-			}
-			
+			//debug mode
+			print_r($out);
+					
 		}
 
 
 	}
 
 	public function newUp(){
-
+		echo "new up process start..\n";
 		$parse=$this->request($this->post.'&st=99999','','GET',false);
 		preg_match('/name=\"f\" value=\"(.*)\"/',$parse,$f);
 		preg_match('/name=\"t\" value=\"(.*)\"/',$parse,$t);
@@ -88,8 +97,14 @@ class Diesel{
       	);
 
 		$result=$this->request($action,$upArray,'POST');
-
-		return $result;
+		if(preg_match('/\<div\s+class=\"postcolor\"\s+id=\'post\-(.*)\'\>\s+up\s+\<\!\-\-IBF\.ATTACHMENT_/isU',$result)){
+				echo "Mission completed!\n";
+	                return $result;
+		}else{
+			print_r($result);
+			die("new up not set(((\n");
+		}		
+		
 
 	}
 			
@@ -125,12 +140,10 @@ class Diesel{
 }
 
 $test=new Diesel();
-$test->user='Логин';
-$test->pass='Пароль';
+$test->user='';
+$test->pass='';
 $test->login(); 
-$test->post='ссылка на тему';
-echo $link=$test->findDeleteLink();
+$test->post='';
+$link=$test->findDeleteLink();
 $test->deleteLink($link);
-sleep(5);
 $test->newUp();  
-
