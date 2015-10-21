@@ -48,9 +48,15 @@ class Diesel{
 								die("link for delete file not found section 2\n");
 							}
 																					
+						}else{
+                                                    print_r($v);
+								die("link for delete file not found section 3\n");
 						}
+
+
 					}					
 			}
+		print_r($res);exit;
 
 		return false;     
 	 }
@@ -143,7 +149,7 @@ $test=new Diesel();
 $test->user='';
 $test->pass='';
 $test->login(); 
-$test->post='';
+$test->post='http://diesel.elcat.kg/index.php?showtopic=160621174';
 $link=$test->findDeleteLink();
 $test->deleteLink($link);
 $test->newUp();  
